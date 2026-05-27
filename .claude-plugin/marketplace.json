@@ -1,0 +1,13 @@
+{
+  "name": "plugin-claude",
+  "owner": {
+    "name": "exp-workspace"
+  },
+  "plugins": [
+    {
+      "name": "plugin-claude",
+      "description": "Workspace and migration skills for Adobe Edge Delivery Services projects",
+      "source": "."
+    }
+  ]
+}

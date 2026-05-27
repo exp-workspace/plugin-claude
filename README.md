@@ -5,7 +5,8 @@ A Claude Code plugin with workspace and migration skills.
 ## Install
 
 ```
-/plugin install https://github.com/exp-workspace/plugin-claude
+/plugin marketplace add exp-workspace/plugin-claude
+/plugin install plugin-claude@exp-workspace/plugin-claude
 ```
 
 ## Skills
