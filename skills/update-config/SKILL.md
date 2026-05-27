@@ -103,6 +103,86 @@ Check whether there is already an objet inside the `data` array with the followi
 
 If it doesn't exist, add a new entry to the array as defined above and PUT using curl.
 
+Example JSON:
+
+With data object:
+
+```
+{
+  "data": {
+    "total": 7,
+    "limit": 7,
+    "offset": 0,
+    "data": [
+      {
+        "key": "quick-edit",
+        "value": "author-kit"
+      },
+      {
+        "key": "editor.path",
+        "value": "/myorg/project1=https://ew--da-live--adobe.aem.live/canvas#"
+      },
+      {
+        "key": "editor.path",
+        "value": "/myorg/anothersite=https://ew--da-live--adobe.aem.live/canvas#"
+      }
+    ],
+    ":colWidths": [
+      265,
+      839
+    ]
+  },
+  "flags": {
+    "total": 1,
+    "limit": 1,
+    "offset": 0,
+    "data": [
+      {
+        "key": "lockdownImages",
+        "value": "true"
+      }
+    ],
+    ":colWidths": [
+      231,
+      209
+    ]
+  },
+  ":names": [
+    "data",
+    "permissions",
+    "flags"
+  ],
+  ":version": 3,
+  ":type": "multi-sheet"
+}
+```
+
+With data array:
+
+```
+{
+  "total": 1,
+  "limit": 1,
+  "offset": 0,
+  "data": [
+      {
+        "key": "editor.path",
+        "value": "/myorg/anothersite=https://ew--da-live--adobe.aem.live/canvas#"
+      },
+      {
+        "key": "foo",
+        "value": "bar"
+      }
+  ],
+  ":colWidths": [
+    50,
+    50
+  ],
+  ":sheetname": "data",
+  ":type": "sheet"
+}
+```
+
 Make sure to correctly encode the body as mutlipart form data, using the curl -F flag.
 
 PUT https://admin.da.live/config/<org>/
