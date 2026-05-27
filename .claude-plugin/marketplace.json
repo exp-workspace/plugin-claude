@@ -7,7 +7,7 @@
     {
       "name": "plugin-claude",
       "description": "Workspace and migration skills for Adobe Edge Delivery Services projects",
-      "source": "."
+      "source": { "type": "github", "repo": "exp-workspace/plugin-claude" }
     }
   ]
 }
