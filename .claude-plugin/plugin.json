@@ -1,0 +1,8 @@
+{
+  "name": "plugin-claude",
+  "description": "Workspace and migration skills for Claude Code",
+  "version": "1.0.0",
+  "author": { "name": "exp-workspace" },
+  "repository": "https://github.com/exp-workspace/plugin-claude",
+  "license": "MIT"
+}
