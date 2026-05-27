@@ -110,8 +110,8 @@ With data object:
 ```
 {
   "data": {
-    "total": 7,
-    "limit": 7,
+    "total": 3,
+    "limit": 3,
     "offset": 0,
     "data": [
       {
@@ -161,8 +161,8 @@ With data array:
 
 ```
 {
-  "total": 1,
-  "limit": 1,
+  "total": 2,
+  "limit": 2,
   "offset": 0,
   "data": [
       {
