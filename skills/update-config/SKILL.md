@@ -131,11 +131,12 @@ export DA_TOKEN="{{DA_TOKEN}}"
 
 ## Step 2: Write the updated config
 
-Pass the JSON built above to the `da-config-writer` script shipped in this repository:
+Pass the JSON built above to the `da-config-writer` script bundled with this plugin.
+The plugin cache path is version-agnostic — it works for anyone who has the plugin installed:
 
 ```bash
-REPO_ROOT=$(git rev-parse --show-toplevel)
-npx --yes "file:$REPO_ROOT/tools/da-config-writer" \
+DA_WRITER=$(ls -d "$HOME/.claude/plugins/cache/experience-workspace/experience-workspace/"*/tools/da-config-writer 2>/dev/null | sort -V | tail -1)
+npx --yes "file:$DA_WRITER" \
   --org "$DA_ORG" \
   --token "$DA_TOKEN" \
   --config "$UPDATED_CONFIG"
