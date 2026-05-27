@@ -1,7 +1,7 @@
 {
   "name": "experience-workspace",
   "description": "Workspace and migration skills for Claude Code",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "author": { "name": "exp-workspace" },
   "repository": "https://github.com/exp-workspace/plugin-claude",
   "license": "MIT"

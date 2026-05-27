@@ -81,109 +81,66 @@ Success: HTTP `200`. The token is valid — `DA_TOKEN` is ready for use by the c
 
 # Write to config
 
-## Step 1: Read config
+## Step 1: Read the current config and build the updated JSON
 
-Perform a GET request to https://admin.da.live/config/<org>/ using curl with the Authorization header set to the bearer token obtained before.
+Use the inline Node.js snippet below. It fetches the current config, handles both the
+single-sheet (`data` array at root) and multi-sheet (`data.data` array) formats, ensures
+the `editor.path` entry for the site is present, and prints the updated JSON to stdout.
 
-We need to check the following:
+```bash
+UPDATED_CONFIG=$(node --input-type=module << 'EOF'
+const org   = process.env.DA_ORG;
+const site  = process.env.DA_SITE;
+const token = process.env.DA_TOKEN;
 
-Case A: The returned JSON contains an array called `data`
-Case B: The returned JSOn contains an object called `data`, with an array called `data`
+const res = await fetch(`https://admin.da.live/config/${org}/`, {
+  headers: { Authorization: `Bearer ${token}` },
+});
+if (!res.ok) { console.error(`GET config failed: ${res.status}`); process.exit(1); }
 
-In both cases, we care about the ARRAY, not the object.
+const json = await res.json();
 
-Check whether there is already an objet inside the `data` array with the following:
+// Normalise: extract the data array regardless of response shape
+const isMultiSheet = json[':type'] === 'multi-sheet';
+const dataSheet = isMultiSheet ? json.data : json;
+const rows = dataSheet.data;
 
-{
-  "key": "editor.path",
-  "value": "/<org>/<site>/=https://da.live/canvas#"
-}
+// The entry we want to ensure exists
+const editorKey   = 'editor.path';
+const editorValue = `/${org}/${site}=https://da.live/canvas#`;
 
-(Make sure to subsititue <org> and <site>!)
+const exists = rows.some(r => r.key === editorKey && r.value === editorValue);
+if (!exists) rows.push({ key: editorKey, value: editorValue });
 
-If it doesn't exist, add a new entry to the array as defined above and PUT using curl.
+// Update total/limit to reflect the new row count
+dataSheet.total = rows.length;
+dataSheet.limit = rows.length;
 
-Example JSON:
-
-With data object:
-
-```
-{
-  "data": {
-    "total": 3,
-    "limit": 3,
-    "offset": 0,
-    "data": [
-      {
-        "key": "quick-edit",
-        "value": "author-kit"
-      },
-      {
-        "key": "editor.path",
-        "value": "/myorg/project1=https://ew--da-live--adobe.aem.live/canvas#"
-      },
-      {
-        "key": "editor.path",
-        "value": "/myorg/anothersite=https://ew--da-live--adobe.aem.live/canvas#"
-      }
-    ],
-    ":colWidths": [
-      265,
-      839
-    ]
-  },
-  "flags": {
-    "total": 1,
-    "limit": 1,
-    "offset": 0,
-    "data": [
-      {
-        "key": "lockdownImages",
-        "value": "true"
-      }
-    ],
-    ":colWidths": [
-      231,
-      209
-    ]
-  },
-  ":names": [
-    "data",
-    "permissions",
-    "flags"
-  ],
-  ":version": 3,
-  ":type": "multi-sheet"
-}
+process.stdout.write(JSON.stringify(json));
+EOF
+)
 ```
 
-With data array:
+Set the required environment variables before running:
 
-```
-{
-  "total": 2,
-  "limit": 2,
-  "offset": 0,
-  "data": [
-      {
-        "key": "editor.path",
-        "value": "/myorg/anothersite=https://ew--da-live--adobe.aem.live/canvas#"
-      },
-      {
-        "key": "foo",
-        "value": "bar"
-      }
-  ],
-  ":colWidths": [
-    50,
-    50
-  ],
-  ":sheetname": "data",
-  ":type": "sheet"
-}
+```bash
+export DA_ORG="{{ORG}}"
+export DA_SITE="{{SITE}}"
+export DA_TOKEN="{{DA_TOKEN}}"
 ```
 
-Make sure to correctly encode the body as mutlipart form data, using the curl -F flag.
+## Step 2: Write the updated config
 
-PUT https://admin.da.live/config/<org>/
-Content-Type: multipart/form-data
+Pass the JSON built above to the `da-config-writer` script shipped in this repository:
+
+```bash
+REPO_ROOT=$(git rev-parse --show-toplevel)
+npx --yes "file:$REPO_ROOT/tools/da-config-writer" \
+  --org "$DA_ORG" \
+  --token "$DA_TOKEN" \
+  --config "$UPDATED_CONFIG"
+```
+
+The script performs a multipart `PUT` to `https://admin.da.live/config/<org>/` using the
+`config` form-data field, exactly as DA's own `saveDaConfig` browser helper does.
+Exit code 0 means success; non-zero prints the error and exits.
