@@ -1,5 +1,5 @@
 {
-  "name": "plugin-claude",
+  "name": "experience-workspace",
   "owner": {
     "name": "exp-workspace"
   },
@@ -9,7 +9,7 @@
   },
   "plugins": [
     {
-      "name": "plugin-claude",
+      "name": "experience-workspace",
       "source": "./",
       "description": "Workspace and migration skills for Adobe Edge Delivery Services projects",
       "version": "1.0.0",

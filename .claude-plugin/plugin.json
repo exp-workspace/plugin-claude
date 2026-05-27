@@ -1,5 +1,5 @@
 {
-  "name": "plugin-claude",
+  "name": "experience-workspace",
   "description": "Workspace and migration skills for Claude Code",
   "version": "1.0.0",
   "author": { "name": "exp-workspace" },
