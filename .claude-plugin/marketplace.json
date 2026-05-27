@@ -3,11 +3,22 @@
   "owner": {
     "name": "exp-workspace"
   },
+  "metadata": {
+    "description": "Workspace and migration skills for Adobe Edge Delivery Services projects",
+    "version": "1.0.0"
+  },
   "plugins": [
     {
       "name": "plugin-claude",
+      "source": "./",
       "description": "Workspace and migration skills for Adobe Edge Delivery Services projects",
-      "source": { "type": "github", "repo": "exp-workspace/plugin-claude" }
+      "version": "1.0.0",
+      "author": {
+        "name": "exp-workspace"
+      },
+      "homepage": "https://github.com/exp-workspace/plugin-claude",
+      "repository": "https://github.com/exp-workspace/plugin-claude",
+      "license": "MIT"
     }
   ]
 }
