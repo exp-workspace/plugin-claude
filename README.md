@@ -4,9 +4,16 @@ A Claude Code plugin with workspace and migration skills.
 
 ## Install
 
+Run these two commands in Claude Code in order:
+
+**1. Add the marketplace:**
 ```
 /plugin marketplace add exp-workspace/plugin-claude
-/plugin install experience-workspace@exp-workspace/plugin-claude
+```
+
+**2. Install the plugin:**
+```
+/plugin install experience-workspace
 ```
 
 ## Skills
