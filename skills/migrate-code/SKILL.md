@@ -25,6 +25,7 @@ Perform the following steps:
 ```
 (() => {
   const hasQE = new URL(window.location.href).searchParams.has('quick-edit');
+  // eslint-disable-next-line import/no-cycle
   if (hasQE) import('../tools/quick-edit/quick-edit.js').then((mod) => mod.default());
 })();
 ```
@@ -66,13 +67,13 @@ function generateSidekickPayload() {
   return {
     detail: {
       config: {
-        mountpoint: `https://content.da.live/${owner}/${repo}/`
+        mountpoint: `https://content.da.live/${owner}/${repo}/`,
       },
       location: {
         pathname: window.location.pathname,
       },
-    }
-  }
+    },
+  };
 }
 
 export default function init(payload) {
